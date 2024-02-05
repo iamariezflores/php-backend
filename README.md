@@ -11,8 +11,10 @@ Mailerlite Application Test Tasks
     DB_DATABASE=mailerlite
     ```
 4. Open a terminal and CD to docker directory and do ``` docker-compose -p mailer-backend up ```.
-5. Create a database called ``` mailerlite ``` by doing;
+5. Create a database called ``` mailerlite ``` by doing:
     ```
+     cd docker
+    
     docker exec -it aflores-api-db bash
     mysql -u root -p mailer
     create database mailerlite;
