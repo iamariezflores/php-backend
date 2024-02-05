@@ -16,12 +16,16 @@ Mailerlite Application Test Tasks
      cd docker
     
     docker exec -it aflores-api-db bash
+
     mysql -u root -p
     password is mailer
+
     create database mailerlite;
 
-     CREATE TABLE `subscribers` (
-    `id` int NOT NULL AUTO_INCREMENT,
+    use mailerlite;
+    
+    CREATE TABLE `subscribers` (
+     `id` int NOT NULL AUTO_INCREMENT,
     `email` varchar(255) DEFAULT NULL,
     `name` varchar(255) DEFAULT NULL,
     `last_name` varchar(255) DEFAULT NULL,
