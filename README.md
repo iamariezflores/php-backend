@@ -38,4 +38,4 @@ Mailerlite Application Test Tasks
    /subscriber             POST  Save Subscriber
    /subscriber/find/id=?   GET   Find a subscriber by id
    ```
-4. Redis has been implemented as a MySQL Cache and can be found at ```src/app/Models/Subscriber.php``` 
+4. Redis has been implemented as a MySQL Cache and can be found at ```src/app/Models/Subscriber.php```
