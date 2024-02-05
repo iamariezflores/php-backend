@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  aflores_php:
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    container_name: aflores-php-api
+    restart: always
+    working_dir: /var/www/
+    volumes:
+      - ../src:/var/www
+  
+  aflores_php_nginx:
+    image: nginx:1.25.3-alpine
+    container_name: aflores-api-nginx
+    restart: always
+    ports:
+      - "8000:80"
+    volumes:
+      - ../src:/var/www
+      - ./nginx:/etc/nginx/conf.d
+
+  aflores_php_db:
+    image: mysql:8.0
+    container_name: aflores-api-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mailer
+    ports:
+      - 3306:3306
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+
+  aflores_redis:
+    image: redis
+    ports:
+      - "6379:6379"
