@@ -1,5 +1,4 @@
-# mailerlite-backend
-Mailerlite Application Test Tasks
+# Native PHP backend
 
 # Guide
 1. Clone this repo.
