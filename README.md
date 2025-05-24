@@ -6,8 +6,8 @@
      ```
     DB_HOST=aflores-api-db
     DB_USER=root
-    DB_PASS=mailer
-    DB_DATABASE=mailerlite
+    DB_PASS=serolfserolf
+    DB_DATABASE=phpbackend
     ```
 4. Open a terminal and CD to docker directory and do ``` docker-compose -p mailer-backend up ```.
 5. Create a database called ``` mailerlite ``` by doing:
