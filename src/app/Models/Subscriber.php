@@ -5,27 +5,21 @@ namespace App\Models;
 
 class Subscriber extends Model
 {
+    protected $table = "subscribers";
+
     public function create(string $email, string $name, string $last_name, int $status = 1) : int
     {
-        $sql = $this->db->prepare(
-            'INSERT INTO subscribers(email, name, last_name, status)
-            VALUES(?, ?, ?, ?)'
-        );
-
-        $sql->execute([$email, $name, $last_name, $status]);
-        return (int) $this->db->lastInsertId();
+        return $this->db->create($this->table, [
+            'email'     => $email,
+            'name'      => $name,
+            'last_name' => $last_name,
+            'status'    => $status,
+        ]);
     }
 
     public function findById(int $id): mixed
     {
-        $sql = $this->db->prepare(
-            'SELECT * FROM subscribers WHERE id=?'
-        );
-
-        $sql->execute([$id]);
-        $subsriber = $sql->fetchAll();
-
-        return $subsriber;
+        return $this->db->findById($this->table, $id);
     }
 
     public function getSubscribers(): array
@@ -34,32 +28,18 @@ class Subscriber extends Model
         $redis->connect('aflores_redis', 6379);
 
         $key = 'subscribers';
-        $result = [];
-        if(!$redis->get($key)){
-            $sql = $this->db->prepare(
-                'SELECT * FROM subscribers'
-            );
-    
-            $sql->execute();
-            $r = $sql->fetchAll();
-
-            $redis->set($key, serialize($r));
+        if (!$redis->get($key)) {
+            $subscribers = $this->db->all($this->table);
+            $redis->set($key, serialize($subscribers));
             $redis->expire($key, 10);
-            $result = $r;
-        } else {
-            $result = unserialize($redis->get($key));
+            return $subscribers;
         }
 
-        return $result;
+        return unserialize($redis->get($key));
     }
 
     public function checkIfExists(string $email): mixed
     {
-        $sql = 'SELECT id, email FROM subscribers WHERE email=? LIMIT 1';
-        $query = $this->db->prepare($sql);
-        $query->execute([$email]);
-        $result = $query->fetch();
-
-        return $result;
+        return $this->db->findBy($this->table, 'email', $email);
     }
 }
